@@ -1,12 +1,16 @@
 import Ember from 'ember';
-import ENV from '../config/environment';
+// import ENV from '../config/environment';
 
 var observer = Ember.observer;
 var on = Ember.on;
 var computed = Ember.computed;
-var config = ENV['ember-cli-toggle'] || {};
+let config = {};
 
 export default Ember.Mixin.create({
+  beforeModel: function() {
+    config = this.container.lookupFactory('config:environment');
+  },
+  
   tagName: 'span',
   classNameBindings: ['toggled:x-toggle-container-checked', 'disabled:x-toggle-container-disabled'],
   classNames: ['x-toggle-container'],
@@ -20,14 +24,14 @@ export default Ember.Mixin.create({
   toggled: false,
 
   onLabel: computed('on', function () {
-  	return this.get('on').indexOf(':') > -1
-     ? this.get('on').substr(0,this.get('on').indexOf(':'))
-     : this.get('on');
+  	return this.get('on').indexOf(':') > -1 ?
+      this.get('on').substr(0,this.get('on').indexOf(':'))
+      : this.get('on');
   }),
 
   offLabel: computed('off', function () {
-  	return this.get('off').indexOf(':') > -1
-      ? this.get('off').substr(0,this.get('off').indexOf(':'))
+  	return this.get('off').indexOf(':') > -1 ?
+      this.get('off').substr(0,this.get('off').indexOf(':'))
       : this.get('off');
   }),
 
